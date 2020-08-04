@@ -42,7 +42,7 @@ namespace DurianCode.PlacesSearchBar
 		public string Description { get; set; }
 
 		/// <summary>
-		/// Gets or sets the identifier.
+		/// Gets or sets the identifier. (optional !! - can be NULL)
 		/// </summary>
 		/// <value>The identifier.</value>
 		public string ID { get; set; }
@@ -54,7 +54,7 @@ namespace DurianCode.PlacesSearchBar
 		public string Place_ID { get; set; }
 
 		/// <summary>
-		/// Gets or sets the reference.
+		/// Gets or sets the reference. (optional !! - can be NULL)
 		/// </summary>
 		/// <value>The reference.</value>
 		public string Reference { get; set; }
@@ -89,13 +89,13 @@ namespace DurianCode.PlacesSearchBar
 			var r = new AutoCompletePrediction
 			{
 				Description   = json["description"].Value<string>(),
-				ID            = json["id"].Value<string>(),
+				ID            = json["id"]?.Value<string>(),
 				Place_ID      = json["place_id"].Value<string>(),
-				Reference     = json["reference"].Value<string>(),
+				Reference     = json["reference"]?.Value<string>(),
 				MainText      = json["structured_formatting"]["main_text"].Value<string>(),
 				SecondaryText = json["structured_formatting"]["secondary_text"].Value<string>(),
-				Terms         = json["terms"].Value<JArray>().Select(p => p["value"].Value<string>()).ToList(),
-				Types         = json["types"].Value<JArray>().Select(p => p.Value<string>()).ToList()
+				Terms         = json["terms"]?.Value<JArray>().Select(p => p["value"].Value<string>()).ToList() ?? new List<string>(),
+				Types         = json["types"]?.Value<JArray>().Select(p => p.Value<string>()).ToList() ?? new List<string>(),
 			};
 
 			return r;
